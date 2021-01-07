@@ -13,14 +13,15 @@ while True:
         [RPNInput.append(j) for j in input("> ").split()]
     else:
         i = RPNInput.pop(0)
-        if i.isdigit():
-            RPNOutput.append(int(i))
-        elif i in OpList:
-            RPNOutput.append(OpList[i](RPNOutput.pop(),RPNOutput.pop()))
-        elif i in SubList:
-            [RPNInput.append(j) for j in SubList[i].split()]
-        elif i == 'p':
-            print (val := RPNOutput.pop())
-            RPNOutput.append(val)
-        elif i == 'x':
-            break
+        try:
+            RPNOutput.append(float(i))
+        except:
+            if i == 'p':
+                print (val := RPNOutput.pop())
+                RPNOutput.append(val)
+            elif i == 'x':
+                break
+            elif i in OpList:
+                RPNOutput.append(OpList[i](RPNOutput.pop(),RPNOutput.pop()))
+            elif i in SubList:
+                [RPNInput.append(j) for j in SubList[i].split()]
