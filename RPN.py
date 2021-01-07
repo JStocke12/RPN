@@ -6,20 +6,20 @@ RPNOutput = []
 
 OpList = {'+':lambda x, y: y + x,'-':lambda x, y: y - x,'*':lambda x, y: y * x,'/':lambda x, y: y / x,'^':lambda x, y: y ** x}
 
-SubList = {'c':"0 * +"}
+SubList = {"clear":"0 * +"}
 
 while True:
     if RPNInput == []:
         [RPNInput.append(j) for j in input("> ").split()]
     else:
-        i = RPNInput.pop(0)
+        i = RPNInput.pop(0).lower()
         try:
             RPNOutput.append(float(i))
         except:
-            if i == 'p':
+            if i == "print":
                 print (val := RPNOutput.pop())
                 RPNOutput.append(val)
-            elif i == 'x':
+            elif i == "exit":
                 break
             elif i in OpList:
                 RPNOutput.append(OpList[i](RPNOutput.pop(),RPNOutput.pop()))
