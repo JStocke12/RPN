@@ -6,20 +6,22 @@ RPNOutput = []
 
 OpList = {'+':lambda x, y: y + x,'-':lambda x, y: y - x,'*':lambda x, y: y * x,'/':lambda x, y: y / x,'^':lambda x, y: y ** x}
 
-SubList = {"clear":"0 * +"}
+SubList = {"clear":"0 * +", "negate":"-1 *", "invert":"1 $ /"}
+CharSubList = {key[0]:value for (key,value) in SubList.items()}
 
 while True:
     if RPNInput == []:
+        if RPNOutput != []:
+            print(RPNOutput[-1])
         [RPNInput.append(j) for j in input("> ").split()]
     else:
         i = RPNInput.pop(0).lower()
         try:
             RPNOutput.append(float(i))
         except:
-            if i == "print":
-                print (val := RPNOutput.pop())
-                RPNOutput.append(val)
-            elif i == "exit":
+            if i == "print" or i == "p":
+                print(RPNOutput)
+            elif i == "exit" or i == "x":
                 break
             elif i == "sqrt":
                 approx = 1
@@ -27,7 +29,11 @@ while True:
                 while abs(approx**2 - val) > 10**-15:
                     approx = (approx + val/approx)/2
                 RPNOutput.append(approx)
+            elif i == "$":
+                [RPNOutput.append(i) for i in [RPNOutput.pop(),RPNOutput.pop()]]
             elif i in OpList:
                 RPNOutput.append(OpList[i](RPNOutput.pop(),RPNOutput.pop()))
             elif i in SubList:
                 [RPNInput.append(j) for j in SubList[i].split()]
+            elif i in CharSubList:
+                [RPNInput.append(j) for j in CharSubList[i].split()]
