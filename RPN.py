@@ -6,7 +6,7 @@ RPNOutput = []
 
 OpList = {'+':lambda x, y: y + x,'-':lambda x, y: y - x,'*':lambda x, y: y * x,'/':lambda x, y: y / x,'^':lambda x, y: y ** x}
 
-SubList = {"clear":"0 * +", "negate":"-1 *", "invert":"1 $ /"}
+SubList = {"clear":"0 * +", "negate":"-1 *"}
 CharSubList = {key[0]:value for (key,value) in SubList.items()}
 
 while True:
@@ -29,8 +29,8 @@ while True:
                 while abs(approx**2 - val) > 10**-15:
                     approx = (approx + val/approx)/2
                 RPNOutput.append(approx)
-            elif i == "$":
-                [RPNOutput.append(i) for i in [RPNOutput.pop(),RPNOutput.pop()]]
+            elif i == "invert" or i == "i":
+                RPNOutput.append(1/RPNOutput.pop())
             elif i in OpList:
                 RPNOutput.append(OpList[i](RPNOutput.pop(),RPNOutput.pop()))
             elif i in SubList:
